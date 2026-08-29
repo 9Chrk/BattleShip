@@ -1,83 +1,131 @@
-## BattleShip
+# BattleShip
 
-<img width="756" alt="Affichage Terminal Partie" src="https://github.com/user-attachments/assets/d02a4a5f-979b-40e6-b431-d4920b8d0c8e" />
+![C++](https://img.shields.io/badge/C%2B%2B-20-blue)
+![SQLite](https://img.shields.io/badge/SQLite-embarqu%C3%A9-003B57)
+![Licence](https://img.shields.io/badge/Licence-MIT-green)
 
+BattleShip est une implémentation en console du jeu de bataille navale, organisée autour d’un serveur TCP et de clients locaux. Deux joueurs se connectent au serveur, placent leurs flottes et jouent à tour de rôle sur deux grilles affichées côte à côte. Le serveur gère également les comptes, les amis, les invitations, l’observation des parties et leur relecture durant son exécution.
 
-## Auteurs
+## 📸 Aperçu
 
-- Othman El Kazbani 493194
-- FatimaZohra Lahrach 536142
-- Jawad Cherkaoui 576517
+![Affichage terminal d’une partie](res/Affichage%20Terminal%20Partie.png)
 
-## Compilation
-Commentez les flags à la ligne 3 du Makefile si vous n'êtes pas sur Mac.
+## Sommaire
 
-```make``` crée les programmes ```battleshipServer``` et ```battleshipClient```.
+- [Fonctionnalités](#-fonctionnalités)
+- [Prérequis](#-prérequis)
+- [Installation et compilation](#️-installation-et-compilation)
+- [Lancer une partie locale](#-lancer-une-partie-locale)
+- [Commandes en jeu](#-commandes-en-jeu)
+- [Données locales](#-données-locales)
+- [Structure du projet](#-structure-du-projet)
+- [Documents](#-documents)
+- [Auteurs](#-auteurs)
+- [Licence](#-licence)
 
-```make clean``` supprime les fichiers ```.o``` et ```.d```.
+## ⚡ Fonctionnalités
 
-```make mrclean``` supprime les fichiers ```.o``` et ```.d``` et les exécutables.
+- Serveur TCP écoutant sur le port `8080` et client se connectant à `127.0.0.1`.
+- Inscription et connexion des utilisateurs.
+- Création d’une partie, sélection d’une partie disponible et invitation d’amis comme joueur ou observateur.
+- Placement des bateaux, tirs au tour par tour et affichage de sa flotte et de la flotte adverse en terminal.
+- Limites de temps configurables lors de la création d’une partie : de 15 à 60 secondes par tour et de 650 à 1 200 secondes pour la partie.
+- Observation d’une partie en cours et relecture des parties accessibles aux participants pendant l’exécution du serveur.
+- Liste d’amis, demandes d’amis et messages privés entre amis connectés.
 
+## 🧰 Prérequis
 
-## Comment fonctionne le programme ?
+- Un environnement de type Unix/Linux : le code utilise notamment les sockets POSIX, `pthread`, `dl` et la commande `clear`.
+- GNU Make.
+- `g++-10`, utilisé explicitement par le `Makefile`, avec la prise en charge de C++20.
+- Un compilateur C pour compiler SQLite inclus dans `lib/sqlite3/`.
 
-#### Serveur -> Client
+Aucun serveur de base de données externe ni dépendance à installer n’est requis : SQLite est fourni avec le dépôt.
 
-Ces tokens sont envoyés au client pour des raisons d'affichage
+## ⚙️ Installation et compilation
 
-| Action             | Tokens                                        |
-| ------------------ | --------------------------------------------- |
-| Add boat cell      | `20` `player` `coord_x`  `coord_y`    |
-| Done placing boats | `21`                                        |
-| Send fire          | `22` `coord_x`  `coord_y` `cell_type` |
-| Receive fire       | `23` `coord_x`  `coord_y` `cell_type` |
-| Update boards      | `24`                                        |
-| Reset boards       | `28`                                            |
-| Game over          | `29`                                        |
-
-Ce que le serveur doit faire:
-
-- le src/server/main.cc ne doit pas changer
-- Comment les coups sont reçus ?
-  Une fois un coup reçu, il est stocké dans le vecteur du joueur approprié (player_1/2_moves) et on indique que ce joueur vient de jouer un nouveau coup grâce à un booléen (client.has_new_move). Cela signifie que la partie attend constamment qu'un nouveau coup ait été donné avant de pouvoir le traiter (par le biais d'une boucle de type "while !client.has_new_move").
-- Chaque bateau est composé de cellules ayant chacune une coordonnée. Pour chaque bateau,
-  il faut envoyer un token selon le format de l'action `Add boat cell` pour chaque cellule de ce bateau. Le placement d'un bateau se termine en répétant le token `Add boat cell` avec la première coordonnée.
-  Pour indiquer la fin du placement des bateaux d'un joueur, il faut lui envoyer un token selon le format `Done placing boats`. Il faut stocker ces coups dans un vecteur (players_moves) pour le mode observateur/replay en ajoutant comme premier token "1" ou "2" pour savoir à qui est le bateau (voir).
-- Quand un joueur joue un coup valide, il faut lui envoyer un token `Send fire` avec les coordonnées du coup et le type de la cellule touchée. Il faut envoyer à l'autre joueur un token `Receive fire` avec les mêmes paramètres. Il faut aussi stocker ce coup dans un vecteur (players_moves) pour le mode observateur/replay.
-- Les observateurs sont stockés sous forme d'un vecteur avec tous leurs sockets ("observers"). Lorsqu'un observateur se connecte on lui envoie tous les coups joués jusqu'à présent (pas les placements des bateaux). Ensuite, à chaque nouveau coup joué, on l'envoie à tous les observateurs. On l'envoie avec un token `Send/Receive fire` en fonction de si c'est le joueur 1 ou 2. Il faut aussi envoyer un token `Update boards` aux observateurs pour qu'ils affichent leurs boards actualisés.
-
-| Command       | Tokens                          |
-| ------------- |---------------------------------|
-| Print message | `40` `split (0 or 1)` `message` |
-
-
-| cell_type | Token |
-| --------- | ----- |
-| Water     | `0` |
-| Ocean     | `1` |
-| Undamaged | `2` |
-| Hit       | `3` |
-| Sunk      | `4` |
-
-### Interface graphique
-
-Quand on parle de "remplacer" pour les interfaces graphiques, cela signifie qu'il faut ajouter une nouvelle possibilité.
-Ex:
-
-```
-if (TERMINAL_MODE){
-    printf("blablabla");
-} else{
-    GUI.drawtext("blablabla");
-}
+```bash
+git clone https://github.com/9Chrk/BattleShip.git
+cd BattleShip
+make
 ```
 
-#### Comment implémenter l'affichage sur interface graphique ?
+La commande produit deux exécutables à la racine du dépôt : `battleshipServer` et `battleshipClient`.
 
-- Remplacer tous les printf/cout dans src/client/main.cc par des affichages sur GUI
-- Dans src/client/main.cc, dans la fonction receptionInfo, il faut remplacer l'appel à "(*param).update()" par un appel vers
-  une nouvelle fonction qui affichera le plateau de jeu sur GUI
+Pour supprimer les fichiers de compilation, puis également les exécutables :
 
-#### Comment lire les inputs sur interface graphique ?
+```bash
+make clean
+make mrclean
+```
 
-- Remplacer tous les appels à "get_input" dans src/client/main.cc par une fonction qui lie des cliques et y associe des actions
+## 🎮 Lancer une partie locale
+
+1. Dans un premier terminal, démarrez le serveur :
+
+   ```bash
+   ./battleshipServer
+   ```
+
+2. Dans deux autres terminaux, lancez un client par joueur :
+
+   ```bash
+   ./battleshipClient
+   ```
+
+3. Depuis chaque client, créez un compte ou connectez-vous. Le premier joueur crée une partie puis le second la rejoint depuis le menu. Le mode `d` correspond au mode de jeu exécuté par le serveur.
+
+Les interactions s’effectuent directement dans les terminaux des clients. Le serveur doit rester démarré avant la connexion des clients.
+
+## ⌨️ Commandes en jeu
+
+Les commandes suivantes sont traitées par le serveur lorsqu’elles sont saisies dans un client connecté :
+
+| Commande | Effet |
+| --- | --- |
+| `/help` | Affiche les commandes disponibles. |
+| `/u` | Actualise le plateau du client lorsqu’il est dans une partie. |
+| `/mp ami message` | Envoie un message privé à un ami connecté. |
+| `/invite ami 0` | Invite un ami à la partie créée par le joueur comme participant. |
+| `/invite ami 1` | Invite un ami à la partie créée par le joueur comme observateur. |
+
+Les actions de messagerie et d’invitation nécessitent que les deux utilisateurs soient amis et connectés.
+
+## 🗃️ Données locales
+
+Au démarrage, le serveur ouvre la base SQLite `src/server/database.sqlite` et crée la table des utilisateurs si elle n’existe pas. Les comptes, mots de passe, relations d’amitié et demandes d’amis sont donc conservés dans ce fichier local.
+
+Les relectures sont conservées en mémoire par le serveur : elles sont disponibles pendant son exécution.
+
+## 🧱 Structure du projet
+
+```text
+.
+├── src/
+│   ├── client/             # Connexion locale, réception des événements et affichage terminal
+│   ├── common/             # Port réseau et format des messages partagés
+│   └── server/             # Parties, grilles, menus, comptes et serveur TCP
+├── lib/sqlite3/            # Sources SQLite compilées avec le serveur
+├── res/                    # Capture de l’affichage terminal
+├── diagramme/              # Diagrammes client, serveur et cas d’utilisation
+├── Makefile                # Compilation des exécutables client et serveur
+├── Consignes.pdf           # Consignes du projet
+├── Enoncé.pdf              # Énoncé du projet
+└── SRD.pdf                 # Document SRD
+```
+
+## 📄 Documents
+
+- [Consignes](Consignes.pdf)
+- [Énoncé](Enoncé.pdf)
+- [SRD](SRD.pdf)
+
+## 👥 Auteurs
+
+- Othman El Kazbani — 493194
+- FatimaZohra Lahrach — 536142
+- Jawad Cherkaoui — 576517
+
+## 📜 Licence
+
+Ce projet est distribué sous licence [MIT](LICENSE).
