@@ -11,8 +11,6 @@ Le serveur gère les comptes, les amis, les invitations et les messages privés.
 > Projet académique ULB — INFO-F209.
 > 2023–2024
 
----
-
 <a id="captures-decran"></a>
 
 ## 📸 Captures d’écran
@@ -34,8 +32,6 @@ Le serveur gère les comptes, les amis, les invitations et les messages privés.
 - [Auteurs](#auteurs)
 - [Licence](#licence)
 
----
-
 <a id="fonctionnalites"></a>
 
 ## ✨ Fonctionnalités
@@ -48,8 +44,6 @@ Le serveur gère les comptes, les amis, les invitations et les messages privés.
 - Observation d’une partie en cours et relecture des parties accessibles aux participants pendant l’exécution du serveur.
 - Liste d’amis, demandes d’amis et messages privés entre amis connectés.
 
----
-
 <a id="prerequis"></a>
 
 ## 🧰 Prérequis
@@ -60,8 +54,6 @@ Le serveur gère les comptes, les amis, les invitations et les messages privés.
 - Un compilateur C pour compiler SQLite inclus dans `lib/sqlite3/`.
 
 Aucun serveur de base de données externe ni dépendance à installer n’est requis : SQLite est fourni avec le dépôt.
-
----
 
 <a id="installation-et-compilation"></a>
 
@@ -81,8 +73,6 @@ Pour supprimer les fichiers de compilation, puis également les exécutables :
 make clean
 make mrclean
 ```
-
----
 
 <a id="lancement"></a>
 
@@ -104,8 +94,6 @@ make mrclean
 
 Les interactions s’effectuent directement dans les terminaux des clients. Le serveur doit rester démarré avant la connexion des clients.
 
----
-
 <a id="utilisation"></a>
 
 ## 🎮 Utilisation
@@ -122,8 +110,6 @@ Les commandes suivantes sont traitées par le serveur lorsqu’elles sont saisie
 
 Les actions de messagerie et d’invitation nécessitent que les deux utilisateurs soient amis et connectés.
 
----
-
 <a id="donnees-locales"></a>
 
 ## 🗃️ Données locales
@@ -131,8 +117,6 @@ Les actions de messagerie et d’invitation nécessitent que les deux utilisateu
 Au démarrage, le serveur ouvre la base SQLite `src/server/database.sqlite` et crée la table des utilisateurs si elle n’existe pas. Les comptes, mots de passe, relations d’amitié et demandes d’amis sont donc conservés dans ce fichier local.
 
 Les relectures sont conservées en mémoire par le serveur : elles sont disponibles pendant son exécution.
-
----
 
 <a id="structure-du-projet"></a>
 
@@ -153,8 +137,6 @@ Les relectures sont conservées en mémoire par le serveur : elles sont disponib
 └── SRD.pdf                 # Document SRD
 ```
 
----
-
 <a id="documentation"></a>
 
 ## 📄 Documentation
@@ -163,8 +145,6 @@ Les relectures sont conservées en mémoire par le serveur : elles sont disponib
 - [Énoncé](Enoncé.pdf)
 - [SRD](SRD.pdf)
 
----
-
 <a id="auteurs"></a>
 
 ## 👥 Auteurs
@@ -172,8 +152,6 @@ Les relectures sont conservées en mémoire par le serveur : elles sont disponib
 - Othman El Kazbani — 493194
 - FatimaZohra Lahrach — 536142
 - Jawad Cherkaoui — 576517
-
----
 
 <a id="licence"></a>
 
