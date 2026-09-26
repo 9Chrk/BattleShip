@@ -8,8 +8,8 @@ BattleShip est un **jeu de bataille navale à deux joueurs dans le terminal**, d
 
 Le serveur gère les comptes, les amis, les invitations et les messages privés. Il permet également d’observer les parties et de les rejouer durant son exécution. Les données locales sont stockées avec SQLite.
 
-> Projet académique ULB — INFO-F209.
-> 2023–2024
+> Projet académique ULB — INFO-F209
+> Projet d’informatique 2 · 2023–2024
 
 <a id="captures-decran"></a>
 
@@ -149,9 +149,9 @@ Les relectures sont conservées en mémoire par le serveur : elles sont disponib
 
 ## 👥 Auteurs
 
-- Othman El Kazbani — 493194
-- FatimaZohra Lahrach — 536142
-- Jawad Cherkaoui — 576517
+- Othman El Kazbani
+- FatimaZohra Lahrach
+- Jawad Cherkaoui
 
 <a id="licence"></a>
 
