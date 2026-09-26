@@ -1,29 +1,44 @@
 # BattleShip
 
-![C++](https://img.shields.io/badge/C%2B%2B-20-blue)
-![SQLite](https://img.shields.io/badge/SQLite-embarqu%C3%A9-003B57)
-![Licence](https://img.shields.io/badge/Licence-MIT-green)
+![C++](https://img.shields.io/badge/C%2B%2B-20-blue?style=flat-square)
+![SQLite](https://img.shields.io/badge/SQLite-embarqu%C3%A9-003B57?style=flat-square)
+![Licence](https://img.shields.io/badge/Licence-MIT-green?style=flat-square)
 
-BattleShip est une implémentation en console du jeu de bataille navale, organisée autour d’un serveur TCP et de clients locaux. Deux joueurs se connectent au serveur, placent leurs flottes et jouent à tour de rôle sur deux grilles affichées côte à côte. Le serveur gère également les comptes, les amis, les invitations, l’observation des parties et leur relecture durant son exécution.
+BattleShip est un **jeu de bataille navale à deux joueurs dans le terminal**, développé en **C++20**. Chaque joueur se connecte à un serveur TCP, place sa flotte et tente de couler les navires adverses au tour par tour.
 
-## 📸 Aperçu
+Le serveur gère les comptes, les amis, les invitations et les messages privés. Il permet également d’observer les parties et de les rejouer durant son exécution. Les données locales sont stockées avec SQLite.
+
+> Projet académique ULB — INFO-F209.
+> 2023–2024
+
+---
+
+<a id="captures-decran"></a>
+
+## 📸 Captures d’écran
 
 ![Affichage terminal d’une partie](res/Affichage%20Terminal%20Partie.png)
 
-## Sommaire
+---
 
-- [Fonctionnalités](#-fonctionnalités)
-- [Prérequis](#-prérequis)
-- [Installation et compilation](#️-installation-et-compilation)
-- [Lancer une partie locale](#-lancer-une-partie-locale)
-- [Commandes en jeu](#-commandes-en-jeu)
-- [Données locales](#-données-locales)
-- [Structure du projet](#-structure-du-projet)
-- [Documents](#-documents)
-- [Auteurs](#-auteurs)
-- [Licence](#-licence)
+## 📖 Sommaire
 
-## ⚡ Fonctionnalités
+- [Fonctionnalités](#fonctionnalites)
+- [Prérequis](#prerequis)
+- [Installation et compilation](#installation-et-compilation)
+- [Lancement](#lancement)
+- [Utilisation](#utilisation)
+- [Données locales](#donnees-locales)
+- [Structure du projet](#structure-du-projet)
+- [Documentation](#documentation)
+- [Auteurs](#auteurs)
+- [Licence](#licence)
+
+---
+
+<a id="fonctionnalites"></a>
+
+## ✨ Fonctionnalités
 
 - Serveur TCP écoutant sur le port `8080` et client se connectant à `127.0.0.1`.
 - Inscription et connexion des utilisateurs.
@@ -32,6 +47,10 @@ BattleShip est une implémentation en console du jeu de bataille navale, organis
 - Limites de temps configurables lors de la création d’une partie : de 15 à 60 secondes par tour et de 650 à 1 200 secondes pour la partie.
 - Observation d’une partie en cours et relecture des parties accessibles aux participants pendant l’exécution du serveur.
 - Liste d’amis, demandes d’amis et messages privés entre amis connectés.
+
+---
+
+<a id="prerequis"></a>
 
 ## 🧰 Prérequis
 
@@ -42,7 +61,11 @@ BattleShip est une implémentation en console du jeu de bataille navale, organis
 
 Aucun serveur de base de données externe ni dépendance à installer n’est requis : SQLite est fourni avec le dépôt.
 
-## ⚙️ Installation et compilation
+---
+
+<a id="installation-et-compilation"></a>
+
+## 📦 Installation et compilation
 
 ```bash
 git clone https://github.com/9Chrk/BattleShip.git
@@ -59,7 +82,11 @@ make clean
 make mrclean
 ```
 
-## 🎮 Lancer une partie locale
+---
+
+<a id="lancement"></a>
+
+## ▶️ Lancement
 
 1. Dans un premier terminal, démarrez le serveur :
 
@@ -77,7 +104,11 @@ make mrclean
 
 Les interactions s’effectuent directement dans les terminaux des clients. Le serveur doit rester démarré avant la connexion des clients.
 
-## ⌨️ Commandes en jeu
+---
+
+<a id="utilisation"></a>
+
+## 🎮 Utilisation
 
 Les commandes suivantes sont traitées par le serveur lorsqu’elles sont saisies dans un client connecté :
 
@@ -91,13 +122,21 @@ Les commandes suivantes sont traitées par le serveur lorsqu’elles sont saisie
 
 Les actions de messagerie et d’invitation nécessitent que les deux utilisateurs soient amis et connectés.
 
+---
+
+<a id="donnees-locales"></a>
+
 ## 🗃️ Données locales
 
 Au démarrage, le serveur ouvre la base SQLite `src/server/database.sqlite` et crée la table des utilisateurs si elle n’existe pas. Les comptes, mots de passe, relations d’amitié et demandes d’amis sont donc conservés dans ce fichier local.
 
 Les relectures sont conservées en mémoire par le serveur : elles sont disponibles pendant son exécution.
 
-## 🧱 Structure du projet
+---
+
+<a id="structure-du-projet"></a>
+
+## 📂 Structure du projet
 
 ```text
 .
@@ -114,17 +153,29 @@ Les relectures sont conservées en mémoire par le serveur : elles sont disponib
 └── SRD.pdf                 # Document SRD
 ```
 
-## 📄 Documents
+---
+
+<a id="documentation"></a>
+
+## 📄 Documentation
 
 - [Consignes](Consignes.pdf)
 - [Énoncé](Enoncé.pdf)
 - [SRD](SRD.pdf)
+
+---
+
+<a id="auteurs"></a>
 
 ## 👥 Auteurs
 
 - Othman El Kazbani — 493194
 - FatimaZohra Lahrach — 536142
 - Jawad Cherkaoui — 576517
+
+---
+
+<a id="licence"></a>
 
 ## 📜 Licence
 
