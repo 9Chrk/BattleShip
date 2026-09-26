@@ -15,7 +15,7 @@ Le serveur gère les comptes, les amis, les invitations et les messages privés.
 
 ## 📸 Captures d’écran
 
-![Affichage terminal d’une partie](<img width="1458" height="1079" alt="Image ChatGPT 27 sept  2026, 00_01_57" src="https://github.com/user-attachments/assets/77a660b3-4d68-46e2-87db-b16201652391" />)
+![Affichage terminal d’une partie](https://github.com/user-attachments/assets/77a660b3-4d68-46e2-87db-b16201652391)
 
 ---
 
